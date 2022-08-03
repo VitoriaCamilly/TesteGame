@@ -3,6 +3,7 @@ kaboom({
     fullscreen: true,
     scale: 2,
     debug: true,
+    clearColor: [0,0,0,1],
 })
 
 const MOVE_SPEED = 120
@@ -25,6 +26,19 @@ loadSprite('pipe-top-left', 'ReTPiWY.png')
 loadSprite('pipe-top-right', 'hj2GK4n.png')
 loadSprite('pipe-bottom-left', 'c1cYSbt.png')
 loadSprite('pipe-bottom-right', 'nqQ79eI.png')
+loadSprite('bomberman', 'T0xbHb8.png', {
+  sliceX: 7,
+  sliceY: 4,
+  anims: {
+    //stoped
+    idleLeft: { from: 21, to: 21 },
+    idleRight: { from: 7, to: 7 },
+
+    //move
+    moveLeft: { from: 22 , to: 27  },
+    moveRigth: { from: 8, to: 13 },   
+  }
+});
 
 // loadSprite('blue-block', 'fVscIbn.png')
 // loadSprite('blue-brick', '3e5YRQd.png')
@@ -38,6 +52,16 @@ scene("game", () =>{
     const map = 
         [
           '                                      ',
+          '                                      ',
+          '======   =============================',
+          '                                      ',
+          '                                      ',
+          '                                      ',
+          '==============================   =====',
+          '                                      ',
+          '                                      ',
+          '                                      ',
+          '======   =============================',
           '                                      ',
           '                                      ',
           '                                      ',
@@ -87,24 +111,55 @@ scene("game", () =>{
       const gameLevel = addLevel(map, levelCfg)
     
 
+    // const player = add([
+    //     sprite('bomberman'), ,
+    //     pos(30, 320),
+    //     body(),
+    //     origin('bot')
+
+        
+    // ])
+
     const player = add([
-        sprite('mario'), solid(),
-        pos(30, 0),
-        body(),
-        origin('bot')
+      sprite('bomberman', {
+        animeSpeed: 0.1,
+        frame: 14,
+      }),
+      pos(30,320),
+      { dir: vec2(1,0) },
+      body(),
+
     ])
 
     
 
     keyDown('left', () => {
-        player.move(-MOVE_SPEED, 0)
-      })
-    
-      keyDown('right', () => {
-        player.move(MOVE_SPEED, 0)
-      })
+      player.move(-MOVE_SPEED, 0);
+      player.dir = vec2(-1, 0);
+    })
+  
+    keyDown('right', () => {
+      player.move(MOVE_SPEED, 0);
+      player.dir = vec2(1, 0);
+    })
 
-      keyPress('space', () => {
+    keyPress('left', () => {
+      player.play('moveLeft')
+    })
+  
+    keyPress('right', () => {
+      player.play('moveRigth')
+    })
+
+    keyRelease('left', () => {
+      player.play('idleLeft')
+    })
+  
+    keyRelease('right', () => {
+      player.play('idleRight')
+    })
+
+      keyPress('up', () => {
         if (player.grounded()) {
         //   isJumping = true
           player.jump(CURRENT_JUMP_FORCE)
