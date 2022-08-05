@@ -68,12 +68,12 @@ scene("game", () =>{
           '   $                                  ',
           '                                      ',
           ' $   $        $   $   $   $     !     ',
-          '    _       ?   ?   ?   ?   ?  !!!    ',
+          '     _      ?   ?   ?   ?   ?  !!!    ',
           '======   =============================',
           '                $   $   $             ',
           '                                      ',
           '       !      $   $   $   $           ',
-          '      !!!       &        +            ',
+          '      !!!         &       +           ',
           '==============================   =====',
           '                                      ',
           '                                      ',
@@ -190,13 +190,15 @@ scene("game", () =>{
       let movimento = -20;
       let contador1 = 0;
       let movimento1 = -20;
+      let contador2 = 0;
+      let movimento2 = -20;
 
       action('dangerous', (obj) => {
         obj.move(movimento,0)
         contador ++;
-        if(contador == 250){
+        if(contador == 450){
           movimento = 20;
-        }else if(contador == 500){
+        }else if(contador == 900){
           movimento = -20;
           contador = 0;
         }
@@ -214,22 +216,22 @@ scene("game", () =>{
       }) 
 
       action('polvo', (obj) => {
-        obj.move(movimento1,0)
-        contador1 ++;
-        if(contador1 == 250){
-          movimento1 = 20;
-        }else if(contador1 == 500){
-          movimento1 = -20;
-          contador1 = 0;
+        obj.move(movimento2,0)
+        contador2 ++;
+        if(contador2 == 250){
+          movimento2 = 20;
+        }else if(contador2 == 500){
+          movimento2 = -20;
+          contador2 = 0;
         }
       }) 
 
       player.collides('dangerous', (obj) => {
-        // go("game");
+        go("game");
       })
 
       player.collides('bomb', (obj) => {
-        // go("game");
+        go("game");
       })
       player.collides('coin', (obj) => {
         destroy(obj)
