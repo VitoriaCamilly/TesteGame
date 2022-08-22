@@ -48,16 +48,16 @@ loadSprite('slime', 'c1Vj0j1.png', { sliceX: 3,});
 loadSprite('polvo', '6YV0Zas.png', { sliceX: 3,});
 loadSprite('bomba', 'etY46bP.png', { sliceX: 3,});
 
-// loadSprite('blue-block', 'fVscIbn.png')
-// loadSprite('blue-brick', '3e5YRQd.png')
-// loadSprite('blue-steel', 'gqVoI2b.png')
-// loadSprite('blue-evil-shroom', 'SvV4ueD.png')
-// loadSprite('blue-surprise', 'RMqCc1G.png')
+loadSprite('blue-block', 'fVscIbn.png')
+loadSprite('blue-brick', '3e5YRQd.png')
+loadSprite('blue-steel', 'gqVoI2b.png')
+loadSprite('blue-evil-shroom', 'SvV4ueD.png')
+loadSprite('blue-surprise', 'RMqCc1G.png')
 
 scene("game", () =>{
     layers(['bg', 'obj', 'ui'], 'obj');
 
-    const map = 
+    const maps = [
         [
           
           '======   =============================',
@@ -80,19 +80,30 @@ scene("game", () =>{
           '                             !        ',
           '                            !!!      $',
           '======================================',
+        ],
+        [
+          'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          '                                      ',
+          '                                      ',
+          'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          '   $                                  ',
+          '                                      ',
+          ' $   $        $   $   $   $           ',
+          '                                      ',
+          'xxxxxxxxxx       xxxxxxxxxxxxxxxxxxxxx',
+          '                                      ',
+          '            ###                       ',
+          '                                      ',
+          '       ###       ###                  ',
+          'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx    xxxx',
+          '                                      ',
+          '                                #     ',
+          '                                      ',
+          '                                      ',
+          '                       >             $',
+          'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
         ]
-        // [
-        //   '£                                       £',
-        //   '£                                       £',
-        //   '£                                       £',
-        //   '£                                       £',
-        //   '£                                       £',
-        //   '£        @@@@@@              x x        £',
-        //   '£                          x x x        £',
-        //   '£                        x x x x  x   -+£',
-        //   '£               z   z  x x x x x  x   ()£',
-        //   '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
-        // ]
+      ]
       
 
       const levelCfg = {
@@ -112,19 +123,19 @@ scene("game", () =>{
         '_': [sprite('polvo'), 'polvo'],
         // '(': [sprite('pipe-bottom-left'), solid(), scale(0.5)],
         // ')': [sprite('pipe-bottom-right'), solid(), scale(0.5)],
-        // '-': [sprite('pipe-top-left'), solid(), scale(0.5), 'pipe'],
+        '-': [sprite('pipe-top-left'), solid(), scale(0.5), 'pipe'],
         // '+': [sprite('pipe-top-right'), solid(), scale(0.5), 'pipe'],
         // '^': [sprite('evil-shroom'), solid(), 'dangerous'],
-        '#': [sprite('mushroom'), solid(), 'mushroom', body()],
-        // '!': [sprite('blue-block'), solid(), scale(0.5)],
-        // '£': [sprite('blue-brick'), solid(), scale(0.5)],
-        // 'z': [sprite('blue-evil-shroom'), solid(), scale(0.5), 'dangerous'],
+        // '#': [sprite('mushroom'), solid(), 'mushroom', body()],
+        '#': [sprite('blue-block'), solid(), scale(0.5)],
+        '£': [sprite('blue-brick'), solid(), scale(0.5)],
+        'z': [sprite('blue-evil-shroom'), solid(), scale(0.5), 'dangerous'],
         // '@': [sprite('blue-surprise'), solid(), scale(0.5), 'coin-surprise'],
-        // 'x': [sprite('blue-steel'), solid(), scale(0.5)],
+        'x': [sprite('blue-steel'), solid(), scale(0.5)],
     
       }
     
-      const gameLevel = addLevel(map, levelCfg)
+      const gameLevel = addLevel(maps[1], levelCfg)
 
       add()
     
@@ -241,9 +252,9 @@ scene("game", () =>{
           isJumping = false;
           player.move(-10, 0);
         }else if(mov == 2) {
-          obj.move(20,0)
+          obj.move(50,0)
         }else if(mov == 1){
-          obj.move(-20,0)
+          obj.move(-50,0)
         }
       })
 })
