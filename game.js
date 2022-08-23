@@ -54,16 +54,16 @@ loadSprite('blue-steel', 'gqVoI2b.png')
 loadSprite('blue-evil-shroom', 'SvV4ueD.png')
 loadSprite('blue-surprise', 'RMqCc1G.png')
 
-scene("game", () =>{
+scene("game", ({ level, score }) =>{
     layers(['bg', 'obj', 'ui'], 'obj');
 
     const maps = [
         [
           
-          '======   =============================',
+          '======...=============================',
           '                                      ',
           '                                      ',
-          '  >         $  $  $  $  $  $          ',
+          '            $  $  $  $  $  $          ',
           '==============================   =====',
           '   $                                  ',
           '                                      ',
@@ -85,11 +85,11 @@ scene("game", () =>{
           'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
           '                                      ',
           '                                      ',
-          'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-          '   $                                  ',
-          '                                      ',
-          ' $   $        $   $   $   $           ',
-          '                                      ',
+          'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx    xxx',
+          ' )         (         )          (     ',
+          '     )                    (        )  ',
+          '        )         (          )        ',
+          '  (         (         )          (    ',
           'xxxxxxxxxx       xxxxxxxxxxxxxxxxxxxxx',
           '                                      ',
           '            ###                       ',
@@ -121,6 +121,9 @@ scene("game", () =>{
         '?': [sprite('bomba'), 'bomb'],
         '>': [sprite('brick'), 'brick', solid()],
         '_': [sprite('polvo'), 'polvo'],
+        ')': [sprite('brick'), 'block', solid()],
+        '(': [sprite('brick'), 'block2', solid()],
+        '.': [sprite('blue-steel'),'next', solid(), scale(0.5)],
         // '(': [sprite('pipe-bottom-left'), solid(), scale(0.5)],
         // ')': [sprite('pipe-bottom-right'), solid(), scale(0.5)],
         '-': [sprite('pipe-top-left'), solid(), scale(0.5), 'pipe'],
@@ -135,9 +138,18 @@ scene("game", () =>{
     
       }
     
-      const gameLevel = addLevel(maps[1], levelCfg)
+      const gameLevel = addLevel(maps[level], levelCfg)
 
-      add()
+      const scoreLabel = add([
+        text(score),
+        pos(25, 6),
+        layer('ui'),
+        {
+          value: score,
+        }
+      ])
+    
+      add([text('level ' + parseInt(level + 1) ), pos(40, 6)])
     
 
     // const player = add([
@@ -203,6 +215,10 @@ scene("game", () =>{
       let movimento1 = -20;
       let contador2 = 0;
       let movimento2 = -20;
+      let contador3 = 0;
+      let movimento3 = -20;
+      let contador4 = 0;
+      let movimento4 = -20;
 
       action('dangerous', (obj) => {
         obj.move(movimento,0)
@@ -235,17 +251,49 @@ scene("game", () =>{
           movimento2 = -20;
           contador2 = 0;
         }
-      }) 
+      })
+      
+      action('block', (obj) => {
+        obj.move(movimento3,0)
+        contador3 ++;
+        if(contador3 == 1100){
+          movimento3 = 20;
+        }else if(contador3 == 2200){
+          movimento3 = -20;
+          contador3 = 0;
+        }
+      })
+      action('block2', (obj) => {
+        obj.move(movimento4,0)
+        contador4 ++;
+        if(contador4 == 1000){
+          movimento4 = 20;
+        }else if(contador4 == 2000){
+          movimento4 = -20;
+          contador4 = 0;
+        }
+      })
 
       player.collides('dangerous', (obj) => {
-        go("game");
+        // go("game", { level: 0, score: 0});
       })
 
       player.collides('bomb', (obj) => {
-        go("game");
+        // go("game", { level: 0, score: 0});
       })
+
+      player.collides('next', (obj) => {
+        go('game', {
+          level: (level + 1) % maps.length,
+          score: scoreLabel.value
+        })
+      })
+
       player.collides('coin', (obj) => {
         destroy(obj)
+        scoreLabel.value++
+        scoreLabel.text = scoreLabel.value
+
       })
       player.collides('brick', (obj) => {
         if(isJumping){
@@ -259,4 +307,4 @@ scene("game", () =>{
       })
 })
 
-start("game");
+start("game", { level: 0, score: 0})
