@@ -19,6 +19,11 @@ const score1 = localStorage.getItem("Score1");
 const score2 = localStorage.getItem("Score2");
 const score3 = localStorage.getItem("Score3");
 
+if(score > 3){
+    if(score > 2)
+}
+
+
 let nomeRank = document.getElementById('nomeWin');
 nomeRank.textContent = localStorage.getItem("nome1");
 
@@ -88,7 +93,7 @@ function game(){
     // }
     lista = 0;
     localStorage.setItem("Rank", JSON.stringify(lista))
-    // window.location.href = "game.html";
+    window.location.href = "game.html";
     
 }
 
