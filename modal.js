@@ -1,6 +1,6 @@
-if(localStorage.getItem("Rank")){
+if (localStorage.getItem("Rank")) {
     const lista = JSON.parse(localStorage.getItem("Rank"));
-}else{
+} else {
     const lista = []
 }
 
@@ -14,14 +14,37 @@ function FecharModal() {
     modal.style.zIndex = 0;
 }
 
+let falso = 0;
 const score = localStorage.getItem("Score")
-const score1 = localStorage.getItem("Score1");
-const score2 = localStorage.getItem("Score2");
-const score3 = localStorage.getItem("Score3");
+const score1;
+const score2;
+const score3;
 
-if(score > 3){
-    if(score > 2)
+if (localStorage.getItem("Score1")) {
+    score1 = localStorage.getItem("Score1");
+} else {
+    localStorage.setItem("Score1", score)
+    score1 = localStorage.getItem("Score1");
 }
+if (localStorage.getItem("Score2")) {
+    score2 = localStorage.getItem("Score2");
+}
+if (localStorage.getItem("Score3")) {
+    score3 = localStorage.getItem("Score3");
+}
+
+if (score > score1) {
+    falso = score1;
+    score1 = score;
+    score3 = score2;
+    score2 = falso;
+} else if (score > score2) {
+    score3 = score2;
+    score2 = score;
+} else if (score > score3) {
+    score3 = score;
+}
+
 
 
 let nomeRank = document.getElementById('nomeWin');
@@ -29,9 +52,27 @@ nomeRank.textContent = localStorage.getItem("nome1");
 
 
 function nome() {
-    localStorage.setItem("nome1", lista[0].nome);
-    let nomeRank = document.getElementById('nomeWin');
-        nomeRank.textContent = localStorage.getItem("nome1");
+
+
+    localStorage.setItem("Score1", score1);
+    localStorage.setItem("Score2", score2);
+    localStorage.setItem("Score3", score3);
+    // localStorage.setItem("nome1", lista[0].nome);
+    if (localStorage.getItem("Score1")) {
+        let nomeRank = document.getElementById('nomeWin');
+        nomeRank.textContent = localStorage.getItem("Score1");
+    }
+    if (localStorage.getItem("Score2")) {
+        let nomeRank2 = document.getElementById('nomeTwo');
+        nomeRank2.textContent = localStorage.getItem("Score2");
+    }
+    if (localStorage.getItem("Score3")) {
+        let nomeRank3 = document.getElementById('nomeTree');
+        nomeRank3.textContent = localStorage.getItem("Score3");
+    }
+
+
+
 
 
     // if (score1 >= score2 && score1 >= score3) {
@@ -85,7 +126,7 @@ function nome() {
 
 
 
-function game(){
+function game() {
     const nome = document.querySelector("#nome").value;
     // if(lista){
     //     lista = 0;
@@ -94,6 +135,6 @@ function game(){
     lista = 0;
     localStorage.setItem("Rank", JSON.stringify(lista))
     window.location.href = "game.html";
-    
+
 }
 
