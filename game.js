@@ -300,12 +300,15 @@ scene("game", ({ level, score, fim }) => {
   })
 
   player.collides('next', (obj) => {
+    localStorage.setItem("Score1", score);
     repeat();
     go('game', {
       level: (level + 1) % maps.length,
       score: scoreLabel.value, 
       fim: 30
     })
+    
+    window.location.href = "modal.html"
 
   })
 
