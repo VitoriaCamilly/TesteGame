@@ -300,7 +300,7 @@ scene("game", ({ level, score, fim }) => {
   })
 
   player.collides('next', (obj) => {
-    localStorage.setItem("Score1", score);
+    localStorage.setItem("Score", scoreLabel.value);
     repeat();
     go('game', {
       level: (level + 1) % maps.length,
