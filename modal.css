@@ -185,9 +185,10 @@ td {
     font-family: Stencil Std, fantasy;
 }
 
-.ranking{
+#ranking{
     display: grid;
     padding-bottom: 25vh;
+    z-index: -1;
 }
 
 input {

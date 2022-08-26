@@ -1,3 +1,4 @@
+
 kaboom({
   global: true,
   fullscreen: true,
@@ -307,9 +308,7 @@ scene("game", ({ level, score, fim }) => {
       score: scoreLabel.value, 
       fim: 30
     })
-    
     window.location.href = "modal.html"
-
   })
 
   player.collides('coin', (obj) => {
